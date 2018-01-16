@@ -1,0 +1,1174 @@
+<html>
+<head>
+
+<!--<script src="nut-raf.js"></script>-->
+<title>битва королей</title>
+<!--<style>
+			body {
+				background: #ffffff;
+				color: #fff;
+				font-family: sans-serif;
+				font-size: 2em;
+				text-align: center;
+			}
+			canvas{
+			border: solid .2em #000;
+			height: 90vh;
+			}
+			
+			</style>-->
+			<style>
+			body {
+				background: #666;
+			color: #000;
+			font-family: sans-serif;
+				font-size: 1em;
+				text-align: left;
+			}
+			.playrs { 
+			position:absolute;
+ top:0;
+ right:0;
+ width:200px;
+ <!--   background: #ccc;
+    padding: 5px;
+    padding-right: 20px; 
+    border: solid 1px black; 
+    float: left;-->
+   }
+   .pole div img  {
+    border: 2px solid rgba(0,0,0,0.6);
+    padding: 3px; /* Расстояние от картинки до рамки */
+    background: #666; /* Цвет фона */
+    margin-right: 0px; /* Отступ справа */
+    margin-bottom: 0px; /* Отступ снизу */
+   }
+   .pole div {
+   display: inline-block;
+  position:relative;
+   
+   }  
+   .cards div {
+   display: inline-block;
+   
+   } 
+   .ri_1 {
+ display: inline-block;
+  position:relative;
+}
+.ri_1 span {
+    display:inline-block;
+    position:absolute;
+    top:70px;   
+    left:20px;
+     
+    /* Оформление текста */
+    color:#FFF;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:20px; 
+     
+    /* Фон */
+    background-color:rgba(0,0,0,.4);
+    padding:7px 30px;
+}
+#b {
+position:fixed;
+top:0;
+left:0;
+right:0;
+bottom:0;
+display:none;
+background: grey;
+z-index:1;
+}
+
+#a {
+border:1px solid black;
+position:fixed;
+background: #eff7ff;
+z-index:3;
+display:none;
+}
+#q {
+border:1px solid black;
+position:absolute;
+background: #eff7ff;
+z-index:3;
+display:none;
+}
+#c {
+border:1px solid black;
+position:absolute;
+background: #eff7ff;
+z-index:3;
+display:none;
+}
+#windows {
+padding:5px;
+width: 400px;
+height: 500px;
+border: 2px solid blue; 
+}
+#wind {
+padding:5px;
+width: 150px;
+height: 200px;
+border: 2px solid blue; 
+}
+#windi {
+padding:5px;
+width: 150px;
+height: 100px;
+border: 2px solid blue; 
+}
+a.pages
+{
+background: #97cdff;
+color: white;
+padding: 0px;
+text-decoration: none;
+}
+
+a:hover.pages
+{
+background: red;
+color: white;
+padding: 0px;
+text-decoration: none;
+}
+kk:hover
+{
+background: red;
+color: white;
+padding: 0px;
+text-decoration: none;
+}
+
+.sorR img {
+ -moz-transition: all 1s ease-out;
+ -o-transition: all 1s ease-out;
+ -webkit-transition: all 1s ease-out;
+ }
+ 
+.sorR img:link{
+ /*color: #0000d0;*/ /* Цвет ссылок */
+/* padding: 2px; */ /* Поля вокруг текста */ 
+  border: 5px solid red;
+ }
+.sorR img:hover{
+ -webkit-transform: scale(1.1);
+ -moz-transform: scale(1.1);
+ -o-transform: scale(1.1);
+
+ }
+
+  </style>
+</head>
+<body>
+<div id="nickWrap" style=" position: absolute;
+    top: 40%;
+    left: 40%;">
+<p>Введите ваш ник:</p>
+<p id="nickError"></p>
+<form id="setNick">
+<input size="35" id="nickname"></input><br>
+<p>Введите пароль:</p>
+<input size="35" id="loggin"></input>
+<input type="submit"></input>
+</form>
+</div>
+<div id="wrapperr" style="display:none;"><span style="position:absolute; top:170px; right:150px;background-color:white; " id="timerxod">tik</span>
+<div id="q" ><div id="wind"><a href="#" onclick="hideB();" class="pages" 
+style="float: right; ">X</a><img  src="image/1.jpg" id="is_1" align="left" width="120" height="160"><p id="p2" align="center" style="color:black;"></p>
+</div></div>
+<div id="c" ><div id="windi"><p id="p2" align="center" style="color:black;">Захватить территорию?</p><form id="formada"><input type="submit" value="Да"></input></form><a style="position:absolute; top:78;left:105;" href="#" onclick="hideA();" class="pages" style="float: right; ">Нет</a>
+ </div></div>
+<div id="a" ><div id="windows"><a href="#" onclick="hideA();" class="pages" 
+style="float: right; ">Закрыть</a><img  src="image/1.jpg" id="im_1" align="left" width="110" height="100"><p id="p1" align="center" style="color:black;">Ривендейл - столица эльфов.</p>
+<p id="pro" style="color:green;">Еда: +2(постоянная)</p>
+<p id="pro1" style="color:green;">Дерево:+1(за ход)</p>
+---------------------------------------------------------------------------
+<form id="stroiid">
+<input type="submit" style="background-color:#98FB98;" value="Вывести здании доступные для строительства"></input>
+</form>
+<table id="stroid" style="border: 1px solid black;background: #2e8b57;display:none; ">
+<tr style="display:none;border: 1px solid black;" id="wall0" >
+<th>Здания\</th><th>описание\</th><th>\\затраты\\\\\</th><th>строить</th>
+</tr>
+<tr style="display:none;border: 1px solid black; " id="wall1">
+<td style="font-weight:bold;">стена<span id="stenkra"></span></td>
+<td style="border: 1px solid black;">повышает защиту зоны на 1 </td>
+<td><span id="people_St">Дер:-5</span></td>
+<td><form id="stenaS"><input type="submit" style="background-color:#00FF7F;" value="построить"></input></td>
+</tr></form>
+<tr  style="display:none;border: 1px solid black; " id="wall2" colspan="2">
+<td style="font-weight:bold;">рынок</td>
+<td style="border: 1px solid black;">единоразово дает 5 золотых</td>
+<td><span id="people_Rk">Дер:-5 Кам-5 Жел-5:</span></td>
+<td><form id="stenaD"><input type="submit" style="background-color:#00FF7F;" value="построить"></input></td>
+</tr></form>
+<tr style="display:none;border: 1px solid black; " id="wall3">
+<td style="font-weight:bold;">оружейная</td>
+<td style="border: 1px solid black;">повышает нападение всех воинов на 1 </td>
+<td>Жел:-5 Дер:-5</td>
+<td><form id="stenaF"><input type="submit" style="background-color:#00FF7F;" value="построить"></input></td>
+</tr></form>
+<tr style="display:none;border: 1px solid black; " id="wall4">
+<td style="font-weight:bold;">ферма</td>
+<td style="border: 1px solid black;">повышает прирост пищи на 1 </td>
+<td>Дер:-4 Кам:-3</td>
+<td><form id="stenaG"><input type="submit" style="background-color:#00FF7F;" value="построить"></input></td>
+</tr></form>
+<tr style="display:none;border: 1px solid black; " id="wall5">
+<td style="font-weight:bold;">магическое здание</td>
+<td style="border: 1px solid black;">единоразово дает колдовство +1 </td>
+<td>Зол:-5 </td>
+<td><form id="stenaH"><input type="submit" style="background-color:#00FF7F;" value="построить"></input></td>
+</tr></form>
+</table>
+</div></div>
+<div id="b"></div>
+<div id="pers1" class="playrs" ><!--<img id="otat1" src="other/rz.jpg"
+      width="200" height="200">-->
+	  <form id="resurs">
+	  игрок:<input size="12" id="niki"></input>
+	  раса:<input size="5" id="rass" ></input><br>
+	  <img src="image/zl.jpg" 
+		  width="21" height="16">:<input size="2" id="gold" value='5'></input>
+	   <img src="image/ed.jpg" 
+		  width="19" height="23"><input size="2" id="food" value='5'></input><br>
+	   <img src="image/dr.jpg" 
+		  width="17" height="15">:<input size="2" id="wood" value='5'></input>
+	  <img src="image/km.jpg" 
+		  width="18" height="16"><input size="2" id="kamen"value='5'></input><br>
+	  <img src="image/jl.jpg" 
+		  width="21" height="16">:<input size="2" id="iron" value='5'></input>
+	  <input type="submit" value="Закончить ход"></input>
+	  </form>
+	  </div>
+	<span style="position:absolute; top:150px; right:100px;background-color:white; " id="xodit">ходит</span><div style="position:absolute;top:150px; right:10px;" id="users"></div>
+<div id="polka" class="pole" style="white-space: nowrap">
+      <div id="1_row" class="rassa" ><div class="ri_1" id="rw_1"><a id="f1" href="#" onclick = "showA(this)" class="pages"><img src="image/1.jpg"
+      id="biom_1" width="100" height="100"></a><span id="zn_1">8</span></div><div class="ri_1" id="rw_2"><a id="f2" href="#" onclick = "showA(this)" class="pages"><img src="image/4.jpg" 
+      id="biom_2" width="100" height="100"></a><span id="zn_2">3</span></div><div class="ri_1" id="rw_3"><a id="f3" href="#" onclick = "showA(this)" class="pages"><img src="image/6.jpg" 
+	  id="biom_3" width="100" height="100"></a><span id="zn_3">2</span></div><div class="ri_1" id="rw_4"><a id="f4" href="#" onclick = "showA(this)" class="pages"><img src="image/4.jpg" 
+	  id="biom_4" width="100" height="100"></a><span id="zn_4">3</span></div><div class="ri_1" id="rw_5"><a id="f5" href="#" onclick = "showA(this)" class="pages"><img src="image/11.jpg" 
+	  id="biom_5" width="100" height="100"></a><span id="zn_5">1</span></div><div class="ri_1" id="rw_6"><a id="f6" href="#" onclick = "showA(this)" class="pages"><img src="image/6.jpg" 
+	  id="biom_6" width="100" height="100"></a><span id="zn_6">2</span></div><div class="ri_1" id="rw_7"><a id="f7" href="#" onclick = "showA(this)" class="pages"><img src="image/7.jpg" 
+	  id="biom_7" width="100" height="100"></a><span id="zn_7">3</span></div><div class="ri_1" id="rw_8"><a id="f8" href="#" onclick = "showA(this)" class="pages"><img src="image/10.jpg" 
+	  id="biom_8" width="100" height="100"></a><span id="zn_8">4</span></div><div class="ri_1" id="rw_9"><a id="f9" href="#" onclick = "showA(this)" class="pages"><img src="image/10.jpg" 
+	  id="biom_9" width="100" height="100"></a><span id="zn_9">4</span></div><div class="ri_1" id="rw_10"><a id="f10" href="#" onclick="showA(this);" class="pages"><img src="image/2.jpg" 
+	  id="biom_10" width="100" height="100"></a></a><span id="zn_10">8</span></div>
+</div><br><div class="ri_1" id="2_row"><div id="rw_11"><a id="f11" href="#" onclick = "showA(this)" class="pages"><img src="image/4.jpg" 
+	  id="biom_11" width="100" height="100"></a><span id="zn_11">3</span></div><div class="ri_1" id="rw_12"><a id="f12" href="#" onclick = "showA(this)" class="pages"><img src="image/5.jpg" 
+	  id="biom_12" width="100" height="100"></a><span id="zn_12">2</span></div><div class="ri_1" id="rw_13"><a id="f13" href="#" onclick = "showA(this)" class="pages"><img src="image/13.jpg" 
+	  id="biom_13" width="100" height="100"></a><span id="zn_13">4</span></div><div class="ri_1" id="rw_14"><a id="f14" href="#" onclick = "showA(this)" class="pages"><img src="image/4.jpg" 
+	  id="biom_14" width="100" height="100"></a><span id="zn_14">3</span></div><div class="ri_1" id="rw_15"><a id="f15" href="#" onclick = "showA(this)" class="pages"><img src="image/11.jpg" 
+	  id="biom_15" width="100" height="100"></a><span id="zn_15">1</span></div><div class="ri_1" id="rw_16"><a id="f16" href="#" onclick = "showA(this)" class="pages"><img src="image/6.jpg" 
+	  id="biom_16" width="100" height="100"></a><span id="zn_16">2</span></div><div class="ri_1" id="rw_17"><a id="f17" href="#" onclick = "showA(this)" class="pages"><img src="image/7.jpg" 
+	  id="biom_17" width="100" height="100"></a><span id="zn_17">3</span></div><div class="ri_1" id="rw_18"><a id="f18" href="#" onclick = "showA(this)" class="pages"><img src="image/19.jpg" 
+	  id="biom_18" width="100" height="100"></a><span id="zn_18">2</span></div><div class="ri_1" id="rw_19"><a id="f19" href="#" onclick = "showA(this)" class="pages"><img src="image/7.jpg" 
+	  id="biom_19" width="100" height="100"></a><span id="zn_19">3</span></div><div class="ri_1" id="rw_20"><a id="f20" href="#" onclick = "showA(this)" class="pages"><img src="image/10.jpg" 
+	  id="biom_20" width="100" height="100"></a><span id="zn_20">4</span></div>
+</div><br><div class="ri_1" id="3_row"><div id="rw_21"><a id="f21" href="#" onclick = "showA(this)" class="pages"><img src="image/4.jpg" 
+	  id="biom_21" width="100" height="100"></a><span id="zn_21">3</span></div><div class="ri_1" id="rw_22"><a id="f22" href="#" onclick = "showA(this)" class="pages"><img src="image/5.jpg" 
+	  id="biom_22" width="100" height="100"></a><span id="zn_22">2</span></div><div class="ri_1" id="rw_23"><a id="f23" href="#" onclick = "showA(this)" class="pages"><img src="image/13.jpg" 
+	  id="biom_23" width="100" height="100"></a><span id="zn_23">4</span></div><div class="ri_1" id="rw_24"><a id="f24" href="#" onclick = "showA(this)" class="pages"><img src="image/17.jpg" 
+	  id="biom_24" width="100" height="100"></a><span id="zn_24">5</span></div><div class="ri_1" id="rw_25"><a id="f25" href="#" onclick = "showA(this)" class="pages"><img src="image/12.jpg" 
+	  id="biom_25" width="100" height="100"></a><span id="zn_25">6</span></div><div class="ri_1" id="rw_26"><a id="f26" href="#" onclick = "showA(this)" class="pages"><img src="image/18.jpg" 
+	  id="biom_26" width="100" height="100"></a><span id="zn_26">8</span></div><div class="ri_1" id="rw_27"><a id="f27" href="#" onclick = "showA(this)" class="pages"><img src="image/16.jpg" 
+	  id="biom_27" width="100" height="100"></a><span id="zn_27">6</span></div><div class="ri_1" id="rw_28"><a id="f28" href="#" onclick = "showA(this)" class="pages"><img src="image/20.jpg" 
+	  id="biom_28" width="100" height="100"></a><span id="zn_28">4</span></div><div class="ri_1" id="rw_29"><a id="f29" href="#" onclick = "showA(this)" class="pages"><img src="image/9.jpg" 
+	  id="biom_29" width="100" height="100"></a><span id="zn_29">2</span></div><div class="ri_1" id="rw_30"><a id="f30" href="#" onclick = "showA(this)" class="pages"><img src="image/9.jpg" 
+	  id="biom_30" width="100" height="100"></a><span id="zn_30">2</span></div>
+</div><div id="pers2" style="float:right"><a id="f51" href="#" onclick = "showA(this)" class="pages"><img id="otat2" src="other/rz.jpg"
+      width="200" height="200"></a></div><br><div id="4_row"><div class="ri_1" id="rw_31"><a id="f31" href="#" onclick = "showA(this)" class="pages"><img src="image/15.jpg" 
+	  id="biom_31" width="100" height="100"></a><span id="zn_31">4</span></div><div class="ri_1" id="rw_32"><a id="f32" href="#" onclick = "showA(this)" class="pages"><img src="image/4.jpg" 
+	  id="biom_32" width="100" height="100"></a><span id="zn_32">3</span></div><div class="ri_1" id="rw_33"><a id="f33" href="#" onclick = "showA(this)" class="pages"><img src="image/6.jpg" 
+	  id="biom_33" width="100" height="100"></a><span id="zn_33">2</span></div><div class="ri_1" id="rw_34"><a id="f34" href="#" onclick = "showA(this)" class="pages"><img src="image/4.jpg" 
+	  id="biom_34" width="100" height="100"></a><span id="zn_34">3</span></div><div class="ri_1" id="rw_35"><a id="f35" href="#" onclick = "showA(this)" class="pages"><img src="image/11.jpg" 
+	  id="biom_35" width="100" height="100"></a><span id="zn_35">1</span></div><div class="ri_1" id="rw_36"><a id="f36" href="#" onclick = "showA(this)" class="pages"><img src="image/6.jpg" 
+	  id="biom_36" width="100" height="100"></a><span id="zn_36">2</span></div><div class="ri_1" id="rw_37"><a id="f37" href="#" onclick = "showA(this)" class="pages"><img src="image/7.jpg" 
+	  id="biom_37" width="100" height="100"></a><span id="zn_37">3</span></div><div class="ri_1" id="rw_38"><a id="f38" href="#" onclick = "showA(this)" class="pages"><img src="image/11.jpg" 
+	  id="biom_38" width="100" height="100"></a><span id="zn_38">1</span></div><div class="ri_1" id="rw_39"><a id="f39" href="#" onclick = "showA(this)" class="pages"><img src="image/9.jpg" 
+	  id="biom_39" width="100" height="100"></a><span id="zn_39">2</span></div><div class="ri_1" id="rw_40"><a id="f40" href="#" onclick = "showA(this)" class="pages"><img src="image/8.jpg" 
+	  id="biom_40" width="100" height="100"></a><span id="zn_40">5</span></div>
+</div><br><div id="5_row"><div class="ri_1" id="rw_41"><a id="f41" href="#" onclick = "showA(this)" class="pages"><img src="image/14.jpg" 
+	  id="biom_41" width="100" height="100"></a><span id="zn_41">8</span></div><div class="ri_1" id="rw_42"><a id="f42" href="#" onclick = "showA(this)" class="pages"><img src="image/15.jpg" 
+	  id="biom_42" width="100" height="100"></a><span id="zn_42">4</span></div><div class="ri_1" id="rw_43"><a id="f43" href="#" onclick = "showA(this)" class="pages"><img src="image/6.jpg" 
+	  id="biom_43" width="100" height="100"></a><span id="zn_43">2</span></div><div class="ri_1" id="rw_44"><a id="f44" href="#" onclick = "showA(this)" class="pages"><img src="image/4.jpg" 
+	  id="biom_44" width="100" height="100"></a><span id="zn_44">3</span></div><div class="ri_1" id="rw_45"><a id="f45" href="#" onclick = "showA(this)" class="pages"><img src="image/5.jpg" 
+	  id="biom_45" width="100" height="100"></a><span id="zn_45">2</span></div><div class="ri_1" id="rw_46"><a id="f46" href="#" onclick = "showA(this)" class="pages"><img src="image/6.jpg" 
+	  id="biom_46" width="100" height="100"></a><span id="zn_46">2</span></div><div class="ri_1" id="rw_47"><a id="f47" href="#" onclick = "showA(this)" class="pages"><img src="image/7.jpg" 
+	  id="biom_47" width="100" height="100"></a><span id="zn_47">3</span></div><div class="ri_1" id="rw_48"><a id="f48" href="#" onclick = "showA(this)" class="pages"><img src="image/8.jpg" 
+	  id="biom_48" width="100" height="100"></a><span id="zn_48">5</span></div><div class="ri_1" id="rw_49"><a id="f49" href="#" onclick = "showA(this)" class="pages"><img src="image/8.jpg" 
+	  id="biom_49" width="100" height="100"></a><span id="zn_49">5</span></div><div class="ri_1" id="rw_50"><a id="f50" href="#" onclick = "showA(this)" class="pages"><img src="image/3.jpg" 
+	  id="biom_50" width="100" height="100"></a><span id="zn_50">8</span></div>
+</div>
+</div><div id="pers1" style="float:right;margin-right: 240px;"></div>
+<div class="cards" id="card_">
+<form id="cardr"><!--<a href="#" onclick="document.getElementById('cardr').submit(); return false;">Отправить</a>-->
+	<div id="kad_1"class="sorR"><a id="k1" onclick = "showB(this);"><img id="kar_1" class="kran_1"  src="image/9.jpg" 
+		  width="200" height="260"></a></div>
+	<div id="kad_2" class="sorR"><a id="k2" onclick = "showB(this)"><img id="kar_2" class="kran_1" src="image/9.jpg" 
+		  width="200" height="260"></a></div>
+	<div id="kad_3" class="sorR"><a id="k3" onclick = "showB(this)"><img id="kar_3" class="kran_1" src="image/9.jpg" 
+		  width="200" height="260"></a></div>
+	<div id="kad_4" class="sorR"><a id="k4" onclick = "showB(this)"><img id="kar_4" class="kran_1" src="image/9.jpg"  
+		  width="200" height="260"></a></div>
+	<div id="kad_5" class="sorR"><a id="k5" onclick = "showB(this)"><img id="kar_5" class="kran_1" src="image/9.jpg" 
+		  width="200" height="260"></a></div>
+		    <input type="submit" style="position:absolute;top:561; height:100;background-image:url(images/vib1.jpg);color:white"  value="Выбрать карту "></input>
+		  </form>
+</div>
+</div>
+<!--<div id = "score" style="color:red "></div>-->
+<canvas id="age" width="600" height="400"></canvas>
+<!--<script src="maps.js"></script>
+<script src="zone.js"></script>
+<script src="sort.js"></script>
+<script src="player_.js"></script>
+<script src="maini.js"></script>
+-->
+<script src="koloda.js"></script>
+
+
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+		 jQuery(function($){
+		 var socket=io.connect();
+		 var $nickForm=$('#setNick');
+		 
+		 
+		 	 var $kartForm=$('#cardr');
+			
+			var $daForm=$('#formada');
+			
+			var $stroiForm=$('#stroiid');
+			
+			var $stenaSForms=$('#stenaS');
+	       var $stenaDForms=$('#stenaD');
+		   var $stenaFForms=$('#stenaF');
+		   var $stenaGForms=$('#stenaG');
+		   var $stenaHForms=$('#stenaH');
+		   
+		  var $nickError=$('#nickError');
+		  var $nickBox = $('#nickname');
+		  var $users=$('#users');
+		  var $xodit=$('#xodit');
+		  
+		  var $resForm=$('#resurs');
+		   var $niki=$('#niki');
+		   var $rass=$('#rass');
+		   var $gold=$('#gold');
+		   var $food=$('#food');
+		   var $wood=$('#wood');
+		   var $iron=$('#iron');
+		   var $kamen=$('#kamen');
+ var $timerxod=$('#timerxod');		   
+		   
+            var $rw_1=$('#rw_1');		   
+//		 var $messageForm = $('#send-message');
+//		  var $messageBox = $('#message');
+//		  var $chat = $('#chat');
+		  
+		  $nickForm.submit(function(e){
+			  e.preventDefault();
+
+			 
+			  $niki.val($nickBox.val());
+			  			 
+			   $("#niki").attr("disabled", true)
+			   
+			    
+			  socket.emit('new user', $nickBox.val(), function(data){
+				  if(data){		
+				  $('#nickWrap').hide();
+                $('#wrapperr').css("display", "block");				  
+				//   socket.emit('new gold', $gold.val());	
+//			       $rass.val('3');
+//				   $("#rass").attr("disabled", true)
+			//	  $('#contentWrap').show();
+				  } else{
+				  $nickError.html('that user is already taken.try again');
+				  }
+				 });
+				 
+				  socket.on('rasse', function(data){
+				  $("#biom_1").css("border", "3px solid #32CD32");
+				  $("#biom_10").css("border", "3px solid blue");
+				  $("#biom_41").css("border", "3px solid #FF8C00");
+				   $("#biom_50").css("border", "3px solid #FF0000");
+		  if(data==0){
+		   $rass.val('Эльфы');
+		     $("#biom_1").css("border", "3px solid #32CD32");
+		   $("#rass").attr("readonly", true);
+		   	 let rani = new Coloda();
+				rani.karts_rand('Эльфы');
+				//for(let i=0;i<5;i++){
+			//	mis=String(rani.ruk[i])
+			   socket.emit('new kolo', rani.ruk);
+			 //  }
+		  }
+		  if(data==1){
+		  $rass.val('Люди');
+		  $("#biom_10").css("border", "3px solid blue");
+		   $("#rass").attr("readonly", true);
+		   	 let rani = new Coloda();
+				rani.karts_rand('Люди');
+				//for(let i=0;i<5;i++){
+			//	mis=String(rani.ruk[i])
+			   socket.emit('new kolo', rani.ruk);
+			 //  }
+		  }
+		  if(data==2){
+		   $rass.val('Демоны');
+		    $("#rass").attr("readonly", true);
+			  	 let rani = new Coloda();
+				rani.karts_rand('Демоны');
+				//for(let i=0;i<5;i++){
+			//	mis=String(rani.ruk[i])
+			   socket.emit('new kolo', rani.ruk);
+		  }
+		   if(data==3){
+		   $rass.val('Гномы');
+		    $("#rass").attr("readonly", true);
+			  	 let rani = new Coloda();
+				rani.karts_rand('Гномы');
+				//for(let i=0;i<5;i++){
+			//	mis=String(rani.ruk[i])
+			   socket.emit('new kolo', rani.ruk);
+		  }
+		  });                                ///////////////////////////выиграет тот у кого больше всего очков защиты
+		                                    ////////////////экскалибур защиту всем вашим зонам +1
+											////// защиту поднимать сложно
+											
+		  socket.on('zaxvat', function(data){
+		  if(data[0]==1){
+		  let terr="#biom_"+data[1];	
+		  
+			$(terr).css("border", "3px solid #32CD32");
+		  } if(data[0]==2){
+		  let terr="#biom_"+data[1];	
+		  
+			$(terr).css("border", "3px solid blue");
+		  } if(data[0]==3){
+		  let terr="#biom_"+data[1];	
+		  
+			$(terr).css("border", "3px solid #FF0000");
+		  } if(data[0]==4){
+		  let terr="#biom_"+data[1];	
+		  
+			$(terr).css("border", "3px solid #FF8C00");
+		  }
+		  }); 
+			 $nickBox.val('');
+		  });
+		  
+		  socket.on('stenka',function(data){
+		  
+		  //document.getElementById("stenkra").innerHTML=data;
+		  
+		  });
+		  $resForm.submit(function(e){
+			  e.preventDefault();
+			 // socket.emit('new gold', $gold.val());	
+			 // socket.emit('new food', $food.val());
+			 socket.emit('sxodil',$niki.val());
+			  socket.emit('new wood', $wood.val());	
+			  
+//			   let httt = '';
+//		  for(let i=0; i < data.length; i++){
+//		   //html += data[i] + '<br/>';
+//		   httt +='сходил' + '<br/>';
+//		   httt +='ходит' + '<br/>';
+//		  }		  
+//		   $xodit.html(httt);
+		  
+			// $gold.val('');
+		  });
+		  socket.on('nitu',function(data){
+		  
+		  let imagr = document.getElementById('kar_'+tip);
+		  imagr.src='images/human/' + data +'.jpg';
+		  
+		  });
+		  socket.on('timmer',function(data){
+		  console.log(data);
+		  document.getElementById("timerxod").innerHTML=data;		  
+		  });
+		  socket.on('worker',function(data){
+		  console.log(data);
+		  let massis,wallis;
+		  $('#wall0').css("display", "block");
+		  for(let i=0;i<data.length;i++){
+		  massis=data[i]+1;
+		  wallis='#wall'+massis;
+		  $(wallis).css("display", "block");
+		  }
+		  });
+		  
+		  socket.on('razmen',function(data){
+		  if($rass.val()=='Эльфы'){
+		  for(let i=0;i<data.length;i++){
+		    let imagr = document.getElementById('kar_'+data[i]);
+		  imagr.src='images/elf/' + data[i+1] +'.jpg';
+		  i++;
+		  }
+		  }if($rass.val()=='Люди'){
+		  for(let i=0;i<data.length;i++){
+		    let imagr = document.getElementById('kar_'+data[i]);
+		  imagr.src='images/human/' + data[i+1] +'.jpg';
+		  i++;
+		  }
+		  }if($rass.val()=='Демоны'){
+		  for(let i=0;i<data.length;i++){
+		    let imagr = document.getElementById('kar_'+data[i]);
+		  imagr.src='images/demon/' + data[i+1] +'.jpg';
+		  i++;
+		  }
+		  }if($rass.val()=='Гномы'){
+		  for(let i=0;i<data.length;i++){
+		    let imagr = document.getElementById('kar_'+data[i]);
+		  imagr.src='images/gnom/' + data[i+1] +'.jpg';
+		  i++;
+		  }
+		  }
+		  
+		  });
+		  $stenaSForms.submit(function(e){
+		   e.preventDefault();
+		   console.log(zonni);
+		   socket.emit('strOIT', zonni);
+		   });
+		    $stenaDForms.submit(function(e){
+		   e.preventDefault();
+		   console.log(zonni);
+		   socket.emit('strOIT2', zonni);
+		   });
+		    $stenaFForms.submit(function(e){
+		   e.preventDefault();
+		   console.log(zonni);
+		   socket.emit('strOIT3', zonni);
+		   });
+		    $stenaGForms.submit(function(e){
+		   e.preventDefault();
+		   console.log(zonni);
+		   socket.emit('strOIT4', zonni);
+		   });
+		    $stenaHForms.submit(function(e){
+		   e.preventDefault();
+		   console.log(zonni);
+		   socket.emit('strOIT5', zonni);
+		   });
+		   
+		  $stroiForm.submit(function(e){
+		  e.preventDefault();
+		  if($rass.val()=='Люди'){
+		  document.getElementById("people_St").innerHTML="Кам:-5";
+
+		  }if($rass.val()=='Демоны'){
+		  
+		  document.getElementById("people_St").innerHTML="Кам:-5";
+		  
+		  }if($rass.val()=='Гномы'){
+		  document.getElementById("people_St").innerHTML="Кам:-5";
+		  }
+		
+		  socket.emit('new stroi', zonni, function(data){
+		  if(data){
+		 // console.log('что то пошло не так');
+			$('#stroid').css("display", "block");
+			}else{
+			console.log('территория не ваша');
+			}
+		  });
+		  });
+		  $daForm.submit(function(e){
+		  e.preventDefault();
+		  
+	//	  let grem,grs;
+	//	  grs=colE.length;
+	//	  for(let i=0;i<grs;i++){
+		  
+	//	  grem=colE.pop();
+	//	  $(grem).css("border", "3px solid gray");
+	//	  }
+		  hideA();
+		   socket.emit('new zone', zonni, function(data){
+		    if(data){
+			
+			}else{
+			console.log('территория вам не по зубам');
+			}
+		  
+		  
+		  });
+		  });
+		    $kartForm.submit(function(e){
+			  e.preventDefault();
+			  
+			  console.log(String(tip));
+		socket.emit('cure kart', tip);
+		flg=true;
+		
+			//  socket.emit('new gold', $gold.val());	
+			//  socket.emit('new food', $food.val());	
+			//  socket.emit('new wood', $wood.val());	
+		//  $wood.val('');
+		//	 $gold.val('');
+		  });
+
+		   socket.on('defpol', function(data){
+		   let hort='zn_'+data[0];
+		   console.log(hort);
+		   console.log(data);
+		   document.getElementById(hort).innerHTML=data[1];
+		   
+		   });
+		  socket.on('usernames', function(data){
+		  var html = '';
+		  var httk = '';
+		  for(let i=0; i < data.length; i++){
+		   html += data[i] + '<br/>';
+		   httk +='ходит' + '<br/>';
+		  }		  
+		  $users.html(html);
+		   $xodit.html(httk);
+		  });
+		    socket.on('znchpole', function(data){
+			if($rass.val()=='Эльфы'){
+			//console.log($rass.val());
+			let colr=data,zonarr=[],dosh1="",dosh2="",dosh3="";
+		//	for(let i=0;i<data.length;i++){
+			//dosh="#biom_"+data[i];
+		//	zonarr.push(data[i]+1);
+		//	dosh1="#biom_"+zonarr.pop();
+			//$(dosh1).css("border", "3px solid #98FB98");
+			//zonarr.push(data[i]+10);
+			//dosh2="#biom_"+zonarr.pop();
+			//$(dosh2).css("border", "3px solid #98FB98");
+			//zonarr.push(data[i]+11);
+		//	dosh3="#biom_"+zonarr.pop();
+			//$("#biom_2").css("border", "3px solid #98FB98");
+			// $(dosh3).css("border", "3px solid #98FB98"); 
+			// colE.push(dosh1);
+			// colE.push(dosh2);
+			// colE.push(dosh3);
+			// }
+			}
+				 });
+	/*	  socket.on('nikka', function(data){
+		  var html = '';
+		 	  
+		  $niki.html(data);
+		  });*/
+		   socket.on('kolis', function(data){
+			//  $gold.val(data);
+			  
+			
+				 });
+		  
+		   socket.on('goldis', function(data){
+			  $gold.val(String(data));
+			  
+			
+				 });
+				  socket.on('foodish', function(data){
+			  $food.val(String(data));
+			  
+			
+				 });
+				  socket.on('woodish', function(data){
+			  $wood.val(String(data));
+			  
+			
+				 });
+				   socket.on('stonish', function(data){
+			  $kamen.val(String(data));
+			  
+			
+				 });
+				   socket.on('ironish', function(data){
+			  $iron.val(String(data));
+			  
+			
+				 });
+/*		  $messageForm.submit(function(e){
+		  e.preventDefault();
+		  socket.emit('send message', $messageBox.val());
+		  $messageBox.val('');
+		  });
+		  
+		  socket.on('new message',function(data){
+		  $chat.append('<b>'+data.nick + ':</b>'+data.msg+"<br/>");
+		  });*/
+		 });
+	</script>
+		<script>
+//передача элементов по id "a" и "b"
+window.onload = function()
+{
+a = document.getElementById("a");
+b = document.getElementById("b");
+c = document.getElementById("c");
+} 
+
+//показываем окно функции "showA"
+function showA(obj)
+{
+var nom,tex;
+// document.getElementById('im_1');
+ nom=obj.id;
+ nom=nom.replace('f','');
+ switch(nom){
+ case '1':
+  document.getElementById('p1').innerHTML="Ривендейл - столица эльфов.";
+  $("#im_1").attr("src","image/"+nom+".jpg");
+   document.getElementById('pro').innerHTML="Прирост Пищи:+2";
+document.getElementById('pro1').innerHTML="Дерево:+1";
+ break;
+ case '2':
+ document.getElementById('p1').innerHTML="Лес - нейтральный.";
+ $("#im_1").attr("src","image/"+4+".jpg");
+  document.getElementById('pro').innerHTML="Прирост Пищи:+1";
+document.getElementById('pro1').innerHTML="Дерево:+3";
+ break;
+  case '3':
+ document.getElementById('p1').innerHTML="Поле - нейтральный.";
+ $("#im_1").attr("src","image/"+6+".jpg");
+ document.getElementById('pro').innerHTML="Прирост Пищи:+1";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '4':
+ document.getElementById('p1').innerHTML="Лес - нейтральный.";
+ $("#im_1").attr("src","image/"+4+".jpg");
+  document.getElementById('pro').innerHTML="Прирост Пищи:+1";
+document.getElementById('pro1').innerHTML="Дерево:+3";
+ break;
+  case '5':
+ document.getElementById('p1').innerHTML="пустошь - нейтральный.";
+ $("#im_1").attr("src","image/"+11+".jpg");
+  document.getElementById('pro').innerHTML="Уменьшении пищи: -1";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '6':
+document.getElementById('p1').innerHTML="Поле - нейтральный.";
+ $("#im_1").attr("src","image/"+6+".jpg");
+  document.getElementById('pro').innerHTML="Прирост Пищи:+1";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '7':
+document.getElementById('p1').innerHTML="Овраг - нейтральный.";
+ $("#im_1").attr("src","image/"+7+".jpg");
+  document.getElementById('pro').innerHTML="Камень:+2";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '8':
+document.getElementById('p1').innerHTML="Горы - нейтральный.";
+ $("#im_1").attr("src","image/"+10+".jpg");
+  document.getElementById('pro').innerHTML="Камень:+3";
+document.getElementById('pro1').innerHTML="Железо:+1";
+ break;
+  case '9':
+ document.getElementById('p1').innerHTML="Горы - нейтральный.";
+ $("#im_1").attr("src","image/"+10+".jpg");
+  document.getElementById('pro').innerHTML="Камень:+3";
+document.getElementById('pro1').innerHTML="Железо:+1";
+ break;
+  case '10':
+ document.getElementById('p1').innerHTML="Хумангород - столица людей.";
+  $("#im_1").attr("src","image/"+2+".jpg");
+   document.getElementById('pro').innerHTML="Прирост пищи:+2";
+document.getElementById('pro1').innerHTML="Камень:+1";
+ break;
+  case '11':
+  document.getElementById('p1').innerHTML="Лес - нейтральный.";
+ $("#im_1").attr("src","image/"+4+".jpg");
+document.getElementById('pro').innerHTML="Прирост Пищи:+1";
+document.getElementById('pro1').innerHTML="Дерево:+3";
+ break;
+  case '12':
+ document.getElementById('p1').innerHTML="Река - нейтральный.";
+ $("#im_1").attr("src","image/"+5+".jpg");
+ document.getElementById('pro').innerHTML="Прирост Пищи:+2";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '13':
+ document.getElementById('p1').innerHTML="Болото - нейтральный.";
+ $("#im_1").attr("src","image/"+13+".jpg");
+ document.getElementById('pro').innerHTML="Прирост Пищи:+1";
+document.getElementById('pro1').innerHTML="Дерево:+2";
+ break;
+   case '14':
+ document.getElementById('p1').innerHTML="Лес - нейтральный.";
+ $("#im_1").attr("src","image/"+4+".jpg");
+ document.getElementById('pro').innerHTML="Прирост Пищи:+1";
+document.getElementById('pro1').innerHTML="Дерево:+3";
+ break;
+   case '15':
+ document.getElementById('p1').innerHTML="пустошь - нейтральный.";
+ $("#im_1").attr("src","image/"+11+".jpg");
+ document.getElementById('pro').innerHTML="Уменьшении пищи: -1";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+   case '16':
+ document.getElementById('p1').innerHTML="Поле - нейтральный.";
+ $("#im_1").attr("src","image/"+6+".jpg");
+ document.getElementById('pro').innerHTML="Прирост Пищи:+1";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+   case '17':
+ document.getElementById('p1').innerHTML="Овраг - нейтральный.";
+ $("#im_1").attr("src","image/"+7+".jpg");
+ document.getElementById('pro').innerHTML="Камень:+2";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+   case '18':
+ document.getElementById('p1').innerHTML="нагорье - нейтральный.";
+ $("#im_1").attr("src","image/"+19+".jpg");
+ document.getElementById('pro').innerHTML="Прирост Пищи:+1";
+document.getElementById('pro1').innerHTML="Камень:+1";
+ break;
+   case '19':
+document.getElementById('p1').innerHTML="Овраг - нейтральный.";
+ $("#im_1").attr("src","image/"+7+".jpg");
+ document.getElementById('pro').innerHTML="Камень:+2";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+   case '20':
+  document.getElementById('p1').innerHTML="Горы - нейтральный.";
+ $("#im_1").attr("src","image/"+10+".jpg");
+  document.getElementById('pro').innerHTML="Камень:+3";
+document.getElementById('pro1').innerHTML="Железо:+1";
+ break;
+   case '21':
+  document.getElementById('p1').innerHTML="Лес - нейтральный.";
+ $("#im_1").attr("src","image/"+4+".jpg");
+  document.getElementById('pro').innerHTML="Прирост Пищи:+1";
+document.getElementById('pro1').innerHTML="Дерево:+3";
+ break;
+   case '22':
+document.getElementById('p1').innerHTML="Река - нейтральный.";
+ $("#im_1").attr("src","image/"+5+".jpg");
+  document.getElementById('pro').innerHTML="Прирост Пищи:+2";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+   case '23':
+ document.getElementById('p1').innerHTML="Болото - нейтральный.";
+ $("#im_1").attr("src","image/"+13+".jpg");
+ document.getElementById('pro').innerHTML="Прирост Пищи:+1";
+document.getElementById('pro1').innerHTML="Дерево:+2";
+ break;
+   case '24':
+ document.getElementById('p1').innerHTML="пустыня  - нейтральный.";
+ $("#im_1").attr("src","image/"+17+".jpg");
+ document.getElementById('pro').innerHTML="Уменьшении пищи: -2";
+document.getElementById('pro1').innerHTML=" ";
+break;
+  case '25':
+  document.getElementById('p1').innerHTML="Оазис - нейтральный.";
+ $("#im_1").attr("src","image/"+12+".jpg");
+ document.getElementById('pro').innerHTML="Лимит Пищи:+1";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '26':
+  document.getElementById('p1').innerHTML="Артефакт - нейтральный.";
+ $("#im_1").attr("src","image/"+18+".jpg");
+ document.getElementById('pro').innerHTML="Прирост: Пищи +2,Древесины +2,Камня +2,Железа +2";
+document.getElementById('pro1').innerHTML="";
+ break;
+  case '27':
+  document.getElementById('p1').innerHTML="Башня - нейтральный.";
+ $("#im_1").attr("src","image/"+16+".jpg");
+ document.getElementById('pro').innerHTML="Прирост Пищи:+2";
+document.getElementById('pro1').innerHTML=" ";
+  break;
+  case '28':
+  document.getElementById('p1').innerHTML="полугоры - нейтральный.";
+ $("#im_1").attr("src","image/"+20+".jpg");
+ document.getElementById('pro').innerHTML="Камень:+1";
+document.getElementById('pro1').innerHTML=" ";
+  break;
+  case '29':
+  document.getElementById('p1').innerHTML="горелая земля - нейтральный.";
+ $("#im_1").attr("src","image/"+9+".jpg");
+ document.getElementById('pro').innerHTML="Уменьшении пищи: -1";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '30':
+ document.getElementById('p1').innerHTML="горелая земля - нейтральный.";
+ $("#im_1").attr("src","image/"+9+".jpg");
+ document.getElementById('pro').innerHTML="Уменьшении пищи: -1";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '31':
+  document.getElementById('p1').innerHTML="Горы - нейтральный.";
+ $("#im_1").attr("src","image/"+15+".jpg");
+ document.getElementById('pro').innerHTML="Камень:+3";
+document.getElementById('pro1').innerHTML="Железо:+1";
+ break;
+  case '32':
+  document.getElementById('p1').innerHTML="Лес - нейтральный.";
+ $("#im_1").attr("src","image/"+4+".jpg");
+ document.getElementById('pro').innerHTML="Лимит Пищи:+1";
+document.getElementById('pro1').innerHTML="Дерево:+3";
+ break;
+  case '33':
+  document.getElementById('p1').innerHTML="Поле - нейтральный.";
+ $("#im_1").attr("src","image/"+6+".jpg");
+ document.getElementById('pro').innerHTML="Лимит Пищи:+1";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '34':
+  document.getElementById('p1').innerHTML="Лес - нейтральный.";
+ $("#im_1").attr("src","image/"+4+".jpg");
+ document.getElementById('pro').innerHTML="Лимит Пищи:+1";
+document.getElementById('pro1').innerHTML="Дерево:+3";
+ break;
+  case '35':
+  document.getElementById('p1').innerHTML="Пустошь - нейтральный.";
+ $("#im_1").attr("src","image/"+11+".jpg");
+ document.getElementById('pro').innerHTML="Уменьшении пищи: -1";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '36':
+  document.getElementById('p1').innerHTML="Поле - нейтральный.";
+ $("#im_1").attr("src","image/"+6+".jpg");
+ document.getElementById('pro').innerHTML="Прирост Пищи:+1";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '37':
+  document.getElementById('p1').innerHTML="Овраг - нейтральный.";
+ $("#im_1").attr("src","image/"+7+".jpg");
+ document.getElementById('pro').innerHTML="Камень:+2";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '38':
+   document.getElementById('p1').innerHTML="Пустошь - нейтральный.";
+ $("#im_1").attr("src","image/"+11+".jpg");
+ document.getElementById('pro').innerHTML="Уменьшении пищи: -1";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '39':
+ document.getElementById('p1').innerHTML="горелая земля - нейтральный.";
+ $("#im_1").attr("src","image/"+9+".jpg");
+ document.getElementById('pro').innerHTML="Уменьшении пищи: -1";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '40':
+  document.getElementById('p1').innerHTML="Магма - нейтральный.";
+ $("#im_1").attr("src","image/"+8+".jpg");
+ document.getElementById('pro').innerHTML="Уменьшении пищи: -3";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '41':
+  document.getElementById('p1').innerHTML="Гномреган - столица гномов.";
+ $("#im_1").attr("src","image/"+14+".jpg");
+ document.getElementById('pro').innerHTML="Прирост Пищи:+2";
+document.getElementById('pro1').innerHTML="Железо:+1";
+ break;
+  case '42':
+  document.getElementById('p1').innerHTML="Горы - нейтральный.";
+ $("#im_1").attr("src","image/"+15+".jpg");
+ document.getElementById('pro').innerHTML="Камень:+3";
+document.getElementById('pro1').innerHTML="Железо:+1";
+ break;
+  case '43':
+  document.getElementById('p1').innerHTML="Поле - нейтральный.";
+ $("#im_1").attr("src","image/"+6+".jpg");
+ document.getElementById('pro').innerHTML="Прирост Пищи:+1";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '44':
+  document.getElementById('p1').innerHTML="Лес - нейтральный.";
+ $("#im_1").attr("src","image/"+4+".jpg");
+ document.getElementById('pro').innerHTML="Прирост Пищи:+1";
+document.getElementById('pro1').innerHTML="Дерево:+3";
+ break;
+  case '45':
+  document.getElementById('p1').innerHTML="Река - нейтральный.";
+ $("#im_1").attr("src","image/"+5+".jpg");
+ document.getElementById('pro').innerHTML="Прирост Пищи:+2";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '46':
+  document.getElementById('p1').innerHTML="Поле - нейтральный.";
+ $("#im_1").attr("src","image/"+6+".jpg");
+ document.getElementById('pro').innerHTML="Прирост Пищи:+1";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '47':
+  document.getElementById('p1').innerHTML="Овраг - нейтральный.";
+ $("#im_1").attr("src","image/"+7+".jpg");
+ document.getElementById('pro').innerHTML="Камень:+2";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '48':
+  document.getElementById('p1').innerHTML="Магма - нейтральный.";
+ $("#im_1").attr("src","image/"+8+".jpg");
+ document.getElementById('pro').innerHTML="Уменьшении пищи: -3";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '49':
+ document.getElementById('p1').innerHTML="Магма - нейтральный.";
+ $("#im_1").attr("src","image/"+8+".jpg");
+  document.getElementById('pro').innerHTML="Уменьшении пищи: -3";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+  case '50':
+  document.getElementById('p1').innerHTML="Демонгород - столица демонов.";
+ $("#im_1").attr("src","image/"+3+".jpg");
+ document.getElementById('pro').innerHTML="Прирост Пищи:+2";
+document.getElementById('pro1').innerHTML=" ";
+ break;
+ case '51':
+  document.getElementById('p1').innerHTML="Чистилище.";
+ $("#im_1").attr("src","other/rz.jpg");
+ document.getElementById('pro').innerHTML="Сюда можно сбросить карты";
+document.getElementById('pro1').innerHTML="Выбираете карту и нажимаете сюда ";
+ break;
+ }
+  //alert(nom);
+ //$("#im_1").attr("src","image/"+nom+".jpg");
+ //$("#p1").attr("value","dsgdfgd");
+//Задаем прозрачность и блокируем дисплей
+//элемента "b"
+
+b.style.filter = "alpha(opacity=80)";
+b.style.opacity = 0.8;
+b.style.display = "block";
+// Задаем блокироваку и отступ сверху в 200px
+//элемента "a"
+if(flg==true){
+c.style.display = "block";
+c.style.top = "300px";
+c.style.left = "550px";
+zonni=nom;
+console.log(zonni);
+}
+else{
+$('#stroid').css("display", "none");
+$('#wall0').css("display", "none");
+$('#wall1').css("display", "none");
+$('#wall2').css("display", "none");
+$('#wall3').css("display", "none");
+$('#wall4').css("display", "none");
+$('#wall5').css("display", "none");
+a.style.display = "block";
+a.style.top = "100px";
+zonni=nom;
+console.log(zonni);
+}
+flg=false;
+}
+
+//Вызываем функцию "hideA", которая будет скрывать 
+//окно для элементов "a" и "b"
+function hideA()
+{
+b.style.display = "none";
+a.style.display = "none";
+c.style.display = "none";
+}      
+</script>
+<script>
+//передача элементов по id "a" и "b"
+ var tip = 0;
+ var flg = false;
+ var colE=[],zonni=0;
+ window.flg=flg;
+ window.tip=tip;
+ //window.colE=colE;
+ window.zonni=zonni;
+window.onload = function()
+{
+
+b = document.getElementById("b");
+q = document.getElementById("q");
+} 
+
+//показываем окно функции "showB"
+function showB(obj)
+{
+let noo,hh;
+ document.getElementById('is_1');
+ noo=obj.id;
+ noo=noo.replace('k','');
+ 
+ // document.getElementById('kar_2');
+ //$("#kar_2").css("border", "3px solid red");
+ //console.log(tip);
+ switch(noo){
+ case '1':
+  document.getElementById('p2').innerHTML="Бывалый-Копейщик"
+  tip=1;
+ $(".kran_1").css("border", "3px solid #666");
+   $("#kar_1").css("border", "3px solid green");
+   
+ break;
+ case '2':
+   tip=2;
+ document.getElementById('p2').innerHTML="Обученный-Лучник"
+ $(".kran_1").css("border", "3px solid #666");
+  $("#kar_2").css("border", "3px solid green");
+    
+ break;
+  case '3':
+  tip=3;
+ document.getElementById('p2').innerHTML="Ветеран-Мечник"
+ $(".kran_1").css("border", "3px solid #666");
+  $("#kar_3").css("border", "3px solid green");
+ break;
+ case '4':
+   tip=4;
+ document.getElementById('p2').innerHTML="Ветеран-Мечник"
+ $(".kran_1").css("border", "3px solid #666");
+  $("#kar_4").css("border", "3px solid green");
+ break;
+ case '5':
+   tip=5;
+ document.getElementById('p2').innerHTML="Ветеран-Мечник"
+ $(".kran_1").css("border", "3px solid #666");
+  $("#kar_5").css("border", "3px solid green");
+ break;
+ }
+  //alert(nom);
+// $("#is_1").attr("src","images/human/"+noo+".jpg");
+   //$("#im_1").attr("height","150");
+ // $("#im_1").attr("width","110");
+  //  $("#windows").attr("windows","110");
+//padding:5px;
+//width: 400px;
+//height: 400px;
+//border: 2px solid blue; 
+
+ //$("#p1").attr("value","dsgdfgd");
+//Задаем прозрачность и блокируем дисплей
+//элемента "b"
+					//b.style.filter = "alpha(opacity=80)";
+					//b.style.opacity = 0.8;
+//b.style.display = "block";
+// Задаем блокироваку и отступ сверху в 200px
+//элемента "a"
+					//q.style.display = "block";
+					//q.style.top = "590px";
+					//q.style.left = "590px";
+}
+
+//Вызываем функцию "hideA", которая будет скрывать 
+//окно для элементов "a" и "b"
+function hideB()
+{
+b.style.display = "none";
+q.style.display = "none";
+}      
+</script>
+<!--<script src="arena.js"></script>
+<script src="player.js"></script>
+<script src="tetris-manager.js"></script>
+<script src="warsis.js"></script>-->
+</body>
+</html>
